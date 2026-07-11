@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from utils.branding import load_logo
+from utils.ui import page_header
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -740,6 +741,17 @@ def _pi_times_from_rabi(omega_rabi_GHz: float):
 # Page
 # ----------------------------
 def page():
+    # UP-1 — this line used to be a copy-paste artifact from
+    # Custom_Qubit_Query.py, which this file's page() was originally
+    # duplicated from: its OWN main title (below, success path) said
+    # "Custom Qubit Query," not "Qubit Simulator" — never updated after the
+    # copy. page_header() replaces both the fallback title here and that one.
+    page_header(
+        "Qubit Simulator", "⚛",
+        "Sweep a qubit's drive frequency and watch the Rabi chevron emerge "
+        "from the Lindblad master equation.",
+        "Learn",
+    )
     _init_state()
 
     if st.session_state.get("user_data") is None:
@@ -748,7 +760,6 @@ def page():
             _clear_results_and_pulses()
             st.rerun()
         except Exception as e:
-            st.title("Qublitz Virtual Qubit Lab")
             st.error(f"Could not load qubit parameters from Streamlit secrets: {e}")
             st.stop()
 
@@ -783,7 +794,6 @@ def page():
     with st.sidebar.expander("Simulation convention"):
         st.caption("This app uses the hidden physical parameters directly: ΩR/2π is passed unchanged to the engine, T₁ is passed unchanged, and the engine enforces T₂ = 2T₁.")
 
-    st.title("Custom Qubit Query")
     tab_freq, tab_time, tab_ramsey = st.tabs(["Frequency Domain", "Time Domain", "Ramsey Sequence"])
 
     with tab_freq:
