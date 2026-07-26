@@ -789,8 +789,8 @@ def page():
     with tab_freq:
         fd_start_default, fd_stop_default = 4.8, 5.2
 
-        start_freq = st.number_input(r"Start $\omega_d/2\pi$ [GHz]", value=fd_start_default, step=0.01, format="%.6f", key="fd_start")
-        stop_freq = st.number_input(r"Stop $\omega_d/2\pi$ [GHz]", value=fd_stop_default, step=0.01, format="%.6f", key="fd_stop")
+        start_freq = st.number_input(r"Start $\omega_d/2\pi$ [GHz]", value=fd_start_default, step=0.01, format="%.2f", key="fd_start")
+        stop_freq = st.number_input(r"Stop $\omega_d/2\pi$ [GHz]", value=fd_stop_default, step=0.01, format="%.2f", key="fd_stop")
         num_points = st.number_input("Number of frequencies", value=41, min_value=5, max_value=201, step=2, key="fd_n")
         spec_tfinal = st.number_input("Pulse duration [ns]", value=25.0, min_value=1.0, max_value=500.0, step=1.0, key="fd_tfinal")
         n_steps_fd = int(25 * float(spec_tfinal))
@@ -903,7 +903,7 @@ def page():
 
     with tab_time:
         omega_d_default = 5.0
-        omega_d = st.number_input(r"$\omega_d/2\pi$ [GHz]", value=omega_d_default, step=1e-6, format="%.9f", key="td_wd")
+        omega_d = st.number_input(r"$\omega_d/2\pi$ [GHz]", value=omega_d_default, step=1e-6, format="%.6f", key="td_wd")
         t_final = st.number_input(r"Duration $\Delta t$ [ns]", value=200.0, min_value=1.0, max_value=2000.0, step=1.0, key="td_tfinal")
         _, sx_sched, sy_sched = pulse_ui(float(t_final))
 
@@ -940,7 +940,7 @@ def page():
             fig_results.update_layout(
                 yaxis=dict(range=[-1.05, 1.05]),
                 xaxis_title="Time [ns]", yaxis_title="Expectation values",
-                title=f"Rotating-frame dynamics (ωd = {float(omega_d):.9f} GHz)",
+                title=f"Rotating-frame dynamics (ωd = {float(omega_d):.6f} GHz)",
                 height=420, margin=dict(t=70, b=50, l=70, r=30),
                 legend=dict(orientation="h"),
             )
@@ -1017,12 +1017,12 @@ def page():
                 r"Reference qubit frequency $\omega_q/2\pi$ [GHz]",
                 value=float(omega_q),
                 step=1e-6,
-                format="%.9f",
+                format="%.6f",
                 key="ramsey_qubit_freq_ref",
                 help="This sets the reference frequency used to convert detuning into drive frequency.",
             )
         with q2:
-            st.metric("Reference ωq / 2π", f"{float(ramsey_qubit_freq):.9f} GHz")
+            st.metric("Reference ωq / 2π", f"{float(ramsey_qubit_freq):.6f} GHz")
 
         source_options = ["Manual entry"]
         fitted_rabi = st.session_state.get("freq_rabi_fit")
@@ -1113,7 +1113,7 @@ def page():
                 zmax=1.0,
                 colorbar=dict(title="P(|1⟩)", thickness=25),
                 customdata=np.tile(np.asarray(chev["drive_freq_list_GHz"])[None, :], (len(chev["delay_list_ns"]), 1)),
-                hovertemplate="Δ=%{x:.3f} MHz<br>ωd/2π=%{customdata:.9f} GHz<br>τ=%{y:.1f} ns<br>P1=%{z:.3f}<extra></extra>",
+                hovertemplate="Δ=%{x:.3f} MHz<br>ωd/2π=%{customdata:.6f} GHz<br>τ=%{y:.1f} ns<br>P1=%{z:.3f}<extra></extra>",
             ))
             fig_chev.update_layout(
                 height=650,
@@ -1126,7 +1126,7 @@ def page():
 
             m1, m2 = st.columns(2)
             with m1:
-                st.metric("Reference ωq / 2π", f"{float(chev['qubit_freq_GHz']):.9f} GHz")
+                st.metric("Reference ωq / 2π", f"{float(chev['qubit_freq_GHz']):.6f} GHz")
             with m2:
                 st.caption("Drive frequency is computed as ωd/2π = ωq/2π + Δ/2π.")
 
@@ -1148,7 +1148,7 @@ def page():
             with info1:
                 st.metric("Selected detuning", f"{nearest_det:+.3f} MHz")
             with info2:
-                st.metric("Corresponding ωd / 2π", f"{nearest_drive:.9f} GHz")
+                st.metric("Corresponding ωd / 2π", f"{nearest_drive:.6f} GHz")
 
             fig_cut = go.Figure()
             fig_cut.add_trace(go.Scatter(
