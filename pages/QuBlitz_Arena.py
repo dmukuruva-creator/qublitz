@@ -21,7 +21,8 @@ from pathlib import Path
 
 import streamlit as st
 
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 
 _GAME_HTML = Path(__file__).parent / "_assets" / "quantum_chess.html"
 # Frame height tuned so the board + side panels + event log sit on one screen

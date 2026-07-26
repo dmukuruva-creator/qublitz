@@ -8,7 +8,8 @@ Release Date:
 import numpy as np
 from streamlit import columns, header, image, latex, markdown, plotly_chart, slider, title
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 import plotly.graph_objects as go
 
 def main():

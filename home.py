@@ -1,5 +1,6 @@
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 def main():
     # Display main image and logo side by side
     main_img = load_logo("images/qublitz.png")

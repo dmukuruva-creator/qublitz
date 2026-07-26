@@ -21,7 +21,8 @@ from typing import Dict, Any, Optional
 import numpy as np
 import pandas as pd
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 import requests
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots

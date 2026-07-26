@@ -20,7 +20,8 @@ from scipy.fft import fftshift, fft
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 
 def main():
     st.title("IQ Mixing Demo")

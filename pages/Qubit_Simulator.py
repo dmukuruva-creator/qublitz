@@ -16,7 +16,8 @@ from typing import Dict, Any, Optional
 import numpy as np
 import pandas as pd
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -114,10 +115,13 @@ def _load_params_from_secrets() -> Dict[str, Any]:
     omega_rabi = 0.35
     T1 = 194.0
     """
-    if "params" in st.secrets:
-        params = st.secrets["params"]
-    else:
+    params = st.secrets.get("params")
+    if params is None:
         params = st.secrets
+
+    if not params:
+        st.error("Deployment secrets missing [params] — see README.")
+        st.stop()
 
     required = ("omega_q", "omega_rabi", "T1")
     missing = [k for k in required if k not in params]

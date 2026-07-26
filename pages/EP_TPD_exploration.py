@@ -7,11 +7,14 @@ Release Date:
 """
 
 import streamlit as st
-from utils.branding import load_logo
+from utils.safe_import import resilient
+load_logo = resilient("utils.branding", "load_logo")
 import numpy as np
 import plotly.graph_objects as go
-from utils.tpd_locations_nd import ep_location, tpd_location
-from utils.pt_peaks_MODEL import peak_location, eigenvalues
+ep_location = resilient("utils.tpd_locations_nd", "ep_location")
+tpd_location = resilient("utils.tpd_locations_nd", "tpd_location")
+peak_location = resilient("utils.pt_peaks_MODEL", "peak_location")
+eigenvalues = resilient("utils.pt_peaks_MODEL", "eigenvalues")
 # map degeneracy type to color and marker
 color_marker_dict = {
     "PRIMARY_EP": ("red", "x-thin"),
