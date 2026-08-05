@@ -32,13 +32,26 @@ This app provides interactive tools to explore exceptional points and transmissi
 
 ## Installation 
 
-Use Python 3.10 or newer. The current PyArrow security release no longer supports Python 3.9.
+Use **Python 3.12**. Not "3.10 or newer" — the upper bound is real: `qutip==4.7.6` (pinned in
+`requirements.txt`) has **no wheel for Python 3.13**, and the source build fails compiling
+`qutip/control/cy_grape.pyx`. Python 3.9 is also out, as the current PyArrow security release
+dropped it. So the supported window is 3.10–3.12, and 3.12 is what the pins are verified against.
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
+
+On macOS the qutip source build needs BLAS: `brew install openblas`.
+
+> Installing into a Python 3.13 interpreter (including a stock Anaconda `base`) fails at import
+> with `ImportError: cannot import name 'Options' from 'qutip'` — qutip 5 removed `Options`, and
+> pip will have silently left you on qutip 5 when 4.7.6 could not build. That is an environment
+> fault, not a code fault. Verified 2026-08-04: on 3.12 every pin resolves exactly and the full
+> suite is **19 passed, 0 failed**.
+
+See `CONTRIBUTING.md` for the dev setup and the verification gate — it is canonical for tooling.
 
 ### Libraries
 Qublitz is hosted as a Streamlit app. The relevant libraries for installation are as follows:
