@@ -5,9 +5,15 @@
 line-length = 120
 target-version = "py312"
 
-# extra_pages/ holds incomplete challenge scaffolding (Gates / Step-Pulse) slated
-# for completion in a later cycle (roadmap C06). It is not wired into the app's
-# sidebar; exclude it from the gate until it is finished rather than churn WIP code.
+# extra_pages/ (Gates / Step-Pulse challenge scaffolding) is **upstream's code, not ours** —
+# added by the maintainer (mvwf, 2025-08-07, e7cef632) and present in upstream/main. It is not
+# wired into this app's sidebar, and linting it would churn files we do not own and generate
+# PR noise against the maintainer. Excluded for ownership reasons, not because it is WIP.
+#
+# Corrected 2026-08-06: this comment previously said the code was "slated for completion in a
+# later cycle (roadmap C06)", which framed it as our unfinished work. It is not ours, and C06
+# appears nowhere in the repo. Do not "clean it up" or delete it — that is an upstream conflict
+# waiting to happen. (For reference: it currently has 8 ruff findings, all upstream's to fix.)
 extend-exclude = ["extra_pages"]
 
 [lint]
